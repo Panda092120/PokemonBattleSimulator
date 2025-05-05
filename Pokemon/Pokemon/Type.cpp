@@ -4,110 +4,39 @@
 class Types 
 {
 	private:
-		std::string type1;
-		std::string type2;
+		// This typechart is from pokemondb.net at https://pokemondb.net/type
+		// For this typechart the indecies are [Defense][Attack]
+		// We create this on battle start to have an object to use to determine effectiveness of attacks
+		int typeChart[18][18] = {											//Attacking types
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1},		// Normal
+			{1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1}, // Fire
+			{1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1},	// Water
+			{1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1, 1},	// Electric
+			{1, 0.5, 2, 1, 0.5, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5, 1}, //Grass
+			{1, 0.5, 0.5, 1, 2, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5, 1},	// Ice
+			{2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2, 0.5},	// Fighting
+			{1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0, 2},	// Poison
+			{1, 2, 1, 2, 0.5, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2, 1},	// Ground
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1},	// Flying
+			{1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5, 1}, //Psychic
+			{1, 0.5, 1, 1, 2, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 0.5}, //Bug
+			{1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5, 1},	// Rock
+			{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 1},	// Ghost
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5, 0},	// Dragon
+			{1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 0.5},	// Dark
+			{1, 0.5, 0.5, 0.5, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5, 2},	//Steel
+			{1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 2, 0.5, 1}	//Fairy
+		};
 
 	public:
-		Types(std::string one, std::string two)
-		{
-			type1 = one;
-			type2 = two;
-		}
-		std::string getType1()
-		{
-			return type1;
-		}
-		std::string getType2()
-		{
-			return type2;
-		}
-		int checkEffectiveness(std::string attackType, std::string myType)
-		{
-			switch (attackType) 
-			{
-			case "Normal"
-				if (myType == "Rock" || myType == "Steel") // Resistant
-				{
-					return 0.5;
-				}
-				else if (myType == "Ghost") // Immunity
-				{
-					return 0;
-				}
-				else { // Neutral
-					return 1;
-				}
-				break;
-			case "Fire"
-				
-				if (myType == "Grass" || myType == "Ice" || myType == "Bug" || myType == "Steel") // Super-Effective
-				{
-					return 2;
-				}
-				else if (myType == "Fire" || myType == "Water" || myType == "Rock" || myType == "Dragon") // Not very effective
-				{
-					return 0.5;
-				}
-				else { // Neutral
-					return 1;
-				}
-				break;
-			case "Water"
+	Types()
+	{
 
-				break;
-			case "Electric"
+	}
 
-				break;
-			case "Grass"
-
-				break;
-			case "Ice"
-
-				break;
-			case "Fighting"
-
-				break;
-			case "Poison"
-
-				break;
-			case "Ground"
-
-				break;
-			case "Fly"
-
-				break;
-			case "Psychic"
-
-				break;
-			case "Bug"
-
-				break;
-			case "Rock"
-
-				break;
-			case "Ghost"
-
-				break;
-			case "Dragon"
-
-				break;
-			case "Dark"
-
-				break;
-			case "Steel"
-
-				break;
-			case "Fairy"
-
-				break;
-
-
-
-
-
-
-			}
-		}
-
-
+	int effectivness (int defense, int attack)
+	{
+		// This will return the interaction between the 2 types used in damage calculation.
+		return this->typeChart[defense][attack];
+	}
 };

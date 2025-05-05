@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Type.cpp"
 
 class Pokemon
@@ -16,18 +17,34 @@ class Pokemon
         int spAtk;
         int spDef;
         int speed;
-
+        std::vector<int> types;
     public:
-        Pokemon(std::string name, int level, int hp, int attack, int defense, int spAtk, int spDef, int speed)
+        // The different constructors are for pokemon with 1 vs 2 types
+        Pokemon(std::string name, int level, int hp, int attack, int defense, int spAtk, int spDef, int speed, int type)
+        {
+            // The following formula is pulled from https://bulbapedia.bulbagarden.net/wiki/Stat#HP on the formula for calculating stats
+            this->name = name;
+            this->level = level;
+            this->hp = hp;
+            this->attack = ((attack * 2 * level)  / 100) + level + 10;
+            this->defense = ((defense * 2 * level)  / 100) + level + 10;
+            this->spAtk = ((spAtk * 2 * level)  / 100) + level + 10;
+            this->spDef = ((spDef * 2 * level)  / 100) + level + 10;
+            this->speed = ((speed * 2 * level)  / 100) + level + 10;
+            this->types.push_back(type);
+        }
+        Pokemon(std::string name, int level, int hp, int attack, int defense, int spAtk, int spDef, int speed, int type1, int type2)
         {
             this->name = name;
             this->level = level;
             this->hp = hp;
-            this->attack = attack;
-            this->defense = defense;
-            this->spAtk = spAtk;
-            this->spDef = spDef;
-            this->speed = speed;
+            this->attack = ((attack * 2 * level)  / 100) + level + 10;
+            this->defense = ((defense * 2 * level)  / 100) + level + 10;
+            this->spAtk = ((spAtk * 2 * level)  / 100) + level + 10;
+            this->spDef = ((spDef * 2 * level)  / 100) + level + 10;
+            this->speed = ((speed * 2 * level)  / 100) + level + 10;
+            this->types.push_back(type1);
+            this->types.push_back(type2);
         }
         std::string getName()
         {
@@ -57,6 +74,21 @@ class Pokemon
         {
             return this->speed;
         }
+        int getHitEffectivness(int attack)
+        {
+            int total = 1;
+            Types chart = Types();
+            for(int i : this->types)
+            {
+                total *= chart.effectivness(i, attack);
+            }
+            return total;
+        }
+        void lowerHp(int dmg)
+        {
+            this->hp -= dmg;
+        }
+
 
 
 };
@@ -64,6 +96,20 @@ class Pokemon
 int main()
 {
     std::cout << "Hello World!\n";
+    // The following pokemon are created from useing their Base stats from bulbapedia, all pokemon are set to lvl 50
+    Pokemon spiritomb = Pokemon("Spiritomb", 50, 50, 92, 108, 92, 108, 35, 13, 15);
+    Pokemon roserade = Pokemon("Roserade", 50, 60, 70, 55, 125, 105, 90, 4, 7);
+    Pokemon gastrodon = Pokemon("Gastrodon", 50, 111, 83, 68, 91, 82, 39, 2, 8);
+    Pokemon lucario = Pokemon("Lucario", 50, 70, 110, 70, 115, 70, 90, 6, 16);
+    Pokemon milotic = Pokemon("Milotic", 50, 95, 60, 79, 100, 125, 81, 2);
+    Pokemon garchomp = Pokemon("Garchomp", 50, 108, 130, 95, 80, 85, 102, 14, 8);
+    Pokemon accelgor = Pokemon("Accelgor", 50, 80, 70, 40, 100, 60, 145, 10);
+    Pokemon bouffalant = Pokemon("Bouffalant", 50, 95, 110, 95, 40, 95, 55, 0);
+    Pokemon druddigon = Pokemon("Druddigon", 50, 77, 120, 90, 60, 90, 48, 14);
+    Pokemon vanilluxe = Pokemon("Vanilluxe", 50, 71, 95, 85, 110, 95, 79, 5);
+    Pokemon escavalier = Pokemon("Escavalier", 50, 70, 135, 105, 60, 105, 20, 10, 16);
+    Pokemon volcarona = Pokemon("Volcarona", 50, 85, 60, 65, 135, 105, 100, 10, 1);
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
